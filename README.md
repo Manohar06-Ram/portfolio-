@@ -1,0 +1,241 @@
+
+# Manu Portfolio
+
+
+
+
+## code
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Vision Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      font-family: 'Outfit', sans-serif;
+      background: #0a0a0a;
+      color: white;
+    }
+
+    canvas#bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    header {
+      position: fixed;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+    }
+
+    nav a {
+      color: inherit;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 1rem;
+    }
+
+    section.hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero h2 {
+      font-size: 4rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      opacity: 0;
+    }
+
+    section.about, section.projects, section.contact {
+      padding: 100px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h3.section-title {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .project-card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      background: #0a0a0a;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <header>
+    <h1>MyVision</h1>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2 class="animate-text">Unleash Your Vision</h2>
+  </section>
+
+  <section class="about" id="about">
+    <h3 class="section-title">About Me</h3>
+    <p>I create immersive experiences and design futuristic interfaces that blend art and technology seamlessly.</p>
+  </section>
+
+  <section class="projects" id="projects">
+    <h3 class="section-title">Projects</h3>
+    <div class="project-grid">
+      <div class="project-card">
+        <h4>Project One</h4>
+        <p>A minimal interactive portfolio with cinematic transitions.</p>
+      </div>
+      <div class="project-card">
+        <h4>Project Two</h4>
+        <p>3D visual experiments using WebGL and Three.js.</p>
+      </div>
+      <div class="project-card">
+        <h4>Project Three</h4>
+        <p>Motion-driven storytelling with GSAP animations.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h3 class="section-title">Contact</h3>
+    <p>Get in touch via <a href="mailto:you@example.com" style="color:inherit">you@example.com</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 Your Name. All rights reserved.
+  </footer>
+
+  <script>
+    // GSAP Hero text animation
+    gsap.to(".animate-text", {
+      opacity: 1,
+      y: 0,
+      duration: 2,
+      ease: "power4.out"
+    });
+
+    // Section title animation on scroll
+    const titles = document.querySelectorAll(".section-title");
+    titles.forEach((title) => {
+      gsap.fromTo(title, {
+        opacity: 0,
+        y: 40
+      }, {
+        opacity: 1,
+        y: 0,
+        scrollTrigger: {
+          trigger: title,
+          start: "top 80%"
+        },
+        duration: 1.2
+      });
+    });
+
+    // THREE.JS 3D ROTATING SHAPE WITH MOUSE INTERACTIVITY
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setClearColor(0x111111, 1);
+
+    const geometry = new THREE.IcosahedronGeometry(2, 1);
+    const material = new THREE.MeshStandardMaterial({ color: 0x00ffff, wireframe: true });
+    const shape = new THREE.Mesh(geometry, material);
+    scene.add(shape);
+
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    const ambientLight = new THREE.AmbientLight(0x404040, 1);
+    scene.add(ambientLight);
+
+    camera.position.z = 6;
+
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener("mousemove", (event) => {
+      mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      shape.rotation.x += (mouseY * 0.5 - shape.rotation.x) * 0.05;
+      shape.rotation.y += (mouseX * 0.5 - shape.rotation.y) * 0.05;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+  </script>
+</body>
+</html>
